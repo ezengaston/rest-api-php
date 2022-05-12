@@ -42,4 +42,23 @@ class Locations
 
         $this->location_name = $result['location_name'];
     }
+
+    public function add()
+    {
+        $query = "INSERT INTO $this->table (location_name) VALUES (:location_name)";
+
+        $stmt = $this->conn->prepare($query);
+
+        $this->location_name = htmlspecialchars(strip_tags($this->location_name));
+
+        $stmt->bindParam(':location_name', $this->location_name);
+
+        if ($stmt->execute()) {
+            return true;
+        }
+
+        printf('Error: %s.\n', $stmt->error);
+
+        return false;
+    }
 }
