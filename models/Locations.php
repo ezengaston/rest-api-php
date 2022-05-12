@@ -61,4 +61,25 @@ class Locations
 
         return false;
     }
+
+    public function update()
+    {
+        $query = "UPDATE $this->table SET location_name = :location_name WHERE id = :id";
+
+        $stmt = $this->conn->prepare($query);
+
+        $this->id = htmlspecialchars(strip_tags($this->id));
+        $this->location_name = htmlspecialchars(strip_tags($this->location_name));
+
+        $stmt->bindParam(':id', $this->id);
+        $stmt->bindParam(':location_name', $this->location_name);
+
+        if ($stmt->execute()) {
+            return true;
+        }
+
+        printf('Error: %s.\n', $stmt->error);
+
+        return false;
+    }
 }
