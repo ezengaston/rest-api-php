@@ -1,3 +1,3 @@
-# rest-api-php
+# REST API
 
-Used with XAMPP
+Used [XAMPP](https://www.apachefriends.org/index.html) as PHP development environment 💻
