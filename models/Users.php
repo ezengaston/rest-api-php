@@ -69,4 +69,29 @@ class Users
 
         return false;
     }
+
+    public function update()
+    {
+        $query = "UPDATE $this->table SET name = :name, email = :email, location_id = :location_id WHERE id = :id";
+
+        $stmt = $this->conn->prepare($query);
+
+        $this->id = htmlspecialchars(strip_tags($this->id));
+        $this->name = htmlspecialchars(strip_tags($this->name));
+        $this->email = htmlspecialchars(strip_tags($this->email));
+        $this->location_id = htmlspecialchars(strip_tags($this->location_id));
+
+        $stmt->bindParam(':id', $this->id);
+        $stmt->bindParam(':name', $this->name);
+        $stmt->bindParam(':email', $this->email);
+        $stmt->bindParam(':location_id', $this->location_id);
+
+        if ($stmt->execute()) {
+            return true;
+        }
+
+        printf('Error: %s.\n', $stmt->error);
+
+        return false;
+    }
 }
