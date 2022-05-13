@@ -101,4 +101,29 @@ class Locations
 
         return false;
     }
+
+    public function searchLocation($search)
+    {
+        if (is_null($search)) {
+            return false;
+        }
+
+        $query = "SELECT * FROM $this->table WHERE location_name LIKE :search";
+
+        $stmt = $this->conn->prepare($query);
+
+        $search = htmlspecialchars(strip_tags($search));
+
+        $stmt->bindParam(':search', $search);
+
+        $stmt->execute();
+
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        if ($result == false) {
+            return null;
+        }
+
+        return $result;
+    }
 }
