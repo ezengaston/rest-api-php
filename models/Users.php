@@ -46,4 +46,27 @@ class Users
         $this->email = $result['email'];
         $this->location_id = $result['location_id'];
     }
+
+    public function add()
+    {
+        $query = "INSERT INTO $this->table (name, email, location_id) VALUES (:name, :email, :location_id)";
+
+        $stmt = $this->conn->prepare($query);
+
+        $this->name = htmlspecialchars(strip_tags($this->name));
+        $this->email = htmlspecialchars(strip_tags($this->email));
+        $this->location_id = htmlspecialchars(strip_tags($this->location_id));
+
+        $stmt->bindParam(':name', $this->name);
+        $stmt->bindParam(':email', $this->email);
+        $stmt->bindParam(':location_id', $this->location_id);
+
+        if ($stmt->execute()) {
+            return true;
+        }
+
+        printf('Error: %s.\n', $stmt->error);
+
+        return false;
+    }
 }
