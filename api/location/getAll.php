@@ -17,7 +17,6 @@ $num = $results->rowCount();
 
 if ($num > 0) {
     $locations_arr = array('data' => array());
-    $row = $results->fetch(PDO::FETCH_ASSOC);
 
     while ($row = $results->fetch(PDO::FETCH_ASSOC)) {
         $location = array(
