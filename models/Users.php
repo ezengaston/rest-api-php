@@ -139,4 +139,30 @@ class Users
 
         return $result;
     }
+
+    public function searchUserByLocation($search)
+    {
+        if (is_null($search)) {
+            return false;
+        }
+
+        $query = "SELECT * FROM $this->table LEFT JOIN locations ON locations.id = $this->table.location_id WHERE location_name LIKE :search";
+
+
+        $stmt = $this->conn->prepare($query);
+
+        $search = htmlspecialchars(strip_tags($search));
+
+        $stmt->bindParam(':search', $search);
+
+        $stmt->execute();
+
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        if ($result == false) {
+            return null;
+        }
+
+        return $result;
+    }
 }
